@@ -5,96 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Collection of Poems</title>
   
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
-    scroll-behavior: smooth;
-    
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #0f0f0f;
-      color: #e0e0e0;
-      font-family: 'Playfair Display', serif;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    .fancy-hero {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      
-      /* MAKE SURE YOUR IMAGE NAME MATCHES HERE */
-      background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('Morningside.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f0f0f;
+  color: #f2f2f2; /* brighter text */
+  font-family: 'Playfair Display', serif;
+}
 
-    .hero-text h1 {
-      font-size: 4rem;
-      font-weight: 400;
-      letter-spacing: 3px;
-      margin-bottom: 10px;
-    }
-
-    .hero-text p {
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      font-style: italic;
-      color: #a9a9a9;
-    }
-
-    .fancy-content {
-      padding: 100px 20px;
-      background-color: #0f0f0f;
-    }
-
-    .poem-container {
-      max-width: 600px;
-      margin: 0 auto 150px auto;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-    }
-
-    .poem-container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .poem-title {
-      font-size: 2rem;
-      font-weight: 600;
-      margin-bottom: 30px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
-
-    .poem-body {
-      font-size: 1.0rem;
-      line-height: 2.2;
-    }
-
-    .poem-menu {
+/* LEFT SIDE MENU */
+.poem-menu {
   position: fixed;
   top: 50%;
-  left: 20px;
+  left: 30px;
   transform: translateY(-50%);
   z-index: 1000;
 }
 
-.poem-menu select {
-  background-color: #111;
-  color: #e0e0e0;
-  border: 1px solid #444;
-  padding: 10px;
-  font-family: 'Playfair Display', serif;
-  font-size: 0.9rem;
-  cursor: pointer;
+.poem-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-  </style>
+
+.poem-menu li {
+  margin: 12px 0;
+}
+
+.poem-menu a {
+  text-decoration: none;
+  color: #888;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.poem-menu a:hover {
+  color: #fff;
+}
+
+.poem-menu a.active {
+  color: #fff;
+  border-left: 2px solid #fff;
+  padding-left: 8px;
+}
+
+/* HERO */
+.fancy-hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('Morningside.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.hero-text h1 {
+  font-size: 4rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
+  font-style: italic;
+  color: #cfcfcf; /* brighter */
+}
+
+/* CONTENT */
+.fancy-content {
+  padding: 100px 20px;
+}
+
+/* POEMS */
+.poem-container {
+  max-width: 700px;
+  margin: 0 auto 150px auto;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+.poem-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.poem-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+  color: #ffffff;
+}
+
+.poem-body {
+  font-size: 1.1rem;
+  line-height: 2;
+  color: #e6e6e6; /* MUCH more readable */
+}
+</style>
 </head>
 <body>
 
@@ -340,33 +364,45 @@
   </div>
 
 </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.2 });
+<script>
+document.addEventListener("DOMContentLoaded", function() {
 
-      const poems = document.querySelectorAll('.poem-container');
-      poems.forEach(poem => {
-        observer.observe(poem);
-      });
+  // Fade-in animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
     });
-    const select = document.getElementById("poemSelect");
+  }, { threshold: 0.2 });
 
-select.addEventListener("change", function () {
-  const target = document.getElementById(this.value);
-  if (target) {
-    target.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+  const poems = document.querySelectorAll('.poem-container');
+  poems.forEach(poem => observer.observe(poem));
+
+  // Highlight active poem in menu
+  const sections = document.querySelectorAll(".poem-container");
+  const navLinks = document.querySelectorAll(".poem-menu a");
+
+  window.addEventListener("scroll", () => {
+    let current = "";
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 200;
+      if (scrollY >= sectionTop) {
+        current = section.getAttribute("id");
+      }
     });
-  }
+
+    navLinks.forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === "#" + current) {
+        link.classList.add("active");
+      }
+    });
+  });
+
 });
-  </script>
+</script>
 
 </body>
 </html>
